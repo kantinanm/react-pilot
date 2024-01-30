@@ -2,6 +2,7 @@ import { FC,useState } from 'react';
 import { Text,TextInput, View } from 'react-native';
 import {BigText} from '../shared/BigText';
 import {MyButton} from '../shared/MyButton';
+import {MyInput} from '../shared/MyInput';
 import {z} from 'zod';
 import {SubmitHandler,SubmitErrorHandler,useForm, Controller} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod'; //parser ให้สำหรับกระบวนการ validate
@@ -29,7 +30,7 @@ type LoginModel = z.infer<typeof LoginSchema>;// declare โครงสร้�
 interface Props{
     label: string;
 }
-export const Login: FC<Props>=(props)=>{
+export const Login2: FC<Props>=(props)=>{
     //อะไรก็ตามที่อยู่ใน FC ทำงานเมื่อ มีการเปลี่ยนแปลง หรือ render ใหม่ , ทุกครั้ง
     
     //ใช้งาน useState 
@@ -42,12 +43,13 @@ export const Login: FC<Props>=(props)=>{
 
     const validateSuccess : SubmitHandler<LoginModel> =(data) =>{
         console.log(data);
-        //Alert.alert("");
+        //Alert.alert("Title",data.email);
         
     }
 
     const validateFail :SubmitErrorHandler<LoginModel> =(error) =>{
         console.log(error);
+        //Alert.alert("Success",data.email);
     }
 
 
@@ -57,25 +59,10 @@ export const Login: FC<Props>=(props)=>{
             <BigText text={props.label}/>
         </View>
         <View>
-            <Text className="text-lg text-indigo-950">Email</Text>
-            <Controller
-                control={control}
-                name="email"
-                render={({field})=>
-                    (
-                    <TextInput className="border p-2 text-lg rounded-xl border-orange-600 py-1"
-                    value={field.value}
-                    onChangeText={field.onChange}
-                    ></TextInput>
-                    )
-                }
-            />
+            <MyInput name="email" label="Email (Component)" control={control}></MyInput>
         </View>
         <View>
-            <Text className="text-lg text-indigo-950">Password</Text>
-            <TextInput className="border p-2 text-lg rounded-xl border-orange-600 py-1" 
-                secureTextEntry={true}
-                {...register('password')}></TextInput>
+            <MyInput name="password" label="Password (Component)" control={control} secureTextEntry={true}></MyInput>
         </View>
         <View className='flex flex-row gap-2 pt-3'>
             <View className="flex-1">
